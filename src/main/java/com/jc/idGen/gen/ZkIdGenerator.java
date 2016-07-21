@@ -24,7 +24,7 @@ public class ZkIdGenerator extends BaseIdGenerator {
         this.wokerNum = woker.getWokerNum();
     }
 
-    public Long genLongId() throws Exception {
+    public synchronized Long genLongId() throws Exception {
         long timestamp = System.currentTimeMillis();
         //NTP时钟检查
         if (timestamp < lastTimestamp) {
@@ -32,7 +32,7 @@ public class ZkIdGenerator extends BaseIdGenerator {
                     lastTimestamp - timestamp) + " milliseconds.");
         }
         if (lastTimestamp == timestamp) {
-            sequence = (sequence + 1) % sequenceMax;
+                sequence = (sequence + 1) % sequenceMax;
             if (sequence == 0) {
                 timestamp = tilNextMillis(lastTimestamp);
             }

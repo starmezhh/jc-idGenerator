@@ -10,7 +10,9 @@ import com.jc.idGen.zk.zkclient.ZkclientZookeeperTransporter;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by starmezhh on 16/7/19.
@@ -65,6 +67,33 @@ public class TestIdGen {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testGen1(){
+        final Long t1 = new Date().getTime();
+        Woker woker = new ZkWoker("192.168.10.217:2181");
+        woker.init();
+        final IdGenerator idGenerator = new ZkIdGenerator(woker);
+        idGenerator.init();
+        final Set<Long> set = new HashSet<Long>();
+        while(new Date().getTime()-t1<1000) {
+            new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        if(new Date().getTime()-t1<1000){
+                            Long id = idGenerator.genLongId();
+                            set.add(id);
+//                        System.out.println(id+"");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).run();
+
+        }
+        System.out.println(set.size());
     }
 
 }
