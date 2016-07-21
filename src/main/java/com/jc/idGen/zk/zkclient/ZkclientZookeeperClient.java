@@ -13,7 +13,9 @@ import org.I0Itec.zkclient.exception.ZkNodeExistsException;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.Watcher.Event.KeeperState;
 
-
+/**
+ * 从dubbo-remoting中摘取
+ */
 public class ZkclientZookeeperClient extends AbstractZookeeperClient<IZkChildListener> {
 
 	private final ZkClient client;
