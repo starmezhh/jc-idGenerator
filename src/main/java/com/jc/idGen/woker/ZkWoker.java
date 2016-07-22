@@ -34,6 +34,14 @@ public class ZkWoker implements Woker {
     public ZkWoker() {
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setLockName(String lockName) {
+        this.lockName = lockName;
+    }
+
     public ZkWoker(String url) {
         this.url = url;
     }

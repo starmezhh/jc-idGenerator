@@ -24,6 +24,10 @@ public class ZkIdGenerator extends BaseIdGenerator {
         this.wokerNum = woker.getWokerNum();
     }
 
+    public void setWoker(Woker woker) {
+        this.woker = woker;
+    }
+
     public synchronized Long genLongId() throws Exception {
         long timestamp = System.currentTimeMillis();
         //NTP时钟检查
