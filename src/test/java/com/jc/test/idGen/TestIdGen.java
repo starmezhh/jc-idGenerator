@@ -32,7 +32,8 @@ public class TestIdGen {
 
     @Test
     public void testWoker(){
-        Woker woker = new ZkWoker("192.168.10.217:2181");
+        ZkWoker woker = new ZkWoker("192.168.10.217:2181");
+        woker.setAppName("Test");
         woker.init();
         System.out.println(woker.getWokerId());
         System.out.println(woker.getWokerNum());

@@ -14,22 +14,25 @@ import java.net.UnknownHostException;
  */
 public class ZkWoker implements Woker {
 
-
-    final String WOKERPATH = "/wokerList";
-
-    Long wokerId;
-
-    Long wokerNum = 0L;
-
+    //zookeeper的连接URL: IP:PORT
     String url;
-
+    //zookeeper的路径
+    final String WOKERPATH = "/wokerList";
+    //zookeeper中的lockName
     String lockName ="woker";
+    //应用绑定的机器wokerId
+    Long wokerId;
+    //当前的(应用+机器)数
+    Long wokerNum = 0L;
 
     ZookeeperClient zkClient;
 
     ZookeeperLock lock;
 
+    //当前机器的IP
     String localIp;
+    //当前应用名
+    String appName;
 
     public ZkWoker() {
     }
@@ -42,11 +45,19 @@ public class ZkWoker implements Woker {
         this.lockName = lockName;
     }
 
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
     public ZkWoker(String url) {
         this.url = url;
     }
 
     public void init(){
+        if(appName==null||appName.equalsIgnoreCase("")){
+            throw new RuntimeException("appName of zkWoker can not be null or empty!");
+        }
+
         InetAddress addr = null;
         try {
             addr = InetAddress.getLocalHost();
@@ -70,7 +81,7 @@ public class ZkWoker implements Woker {
             //读取childrenNum
             this.wokerNum = Long.valueOf(zkClient.countChildren(WOKERPATH));
             //读取自己IP节点的wokerId
-            String localPath = WOKERPATH+"/"+localIp;
+            String localPath = WOKERPATH+"/"+localIp+"_"+appName;
             this.wokerId = zkClient.readData(localPath,true);
             //如果机器未注册到zk
             if(wokerId==null){
