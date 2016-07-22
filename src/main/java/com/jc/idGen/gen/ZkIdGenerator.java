@@ -8,6 +8,7 @@ import com.jc.idGen.woker.Woker;
  */
 public class ZkIdGenerator extends BaseIdGenerator {
 
+    //woker的数量
     Long wokerNum;
 
     Woker woker;
